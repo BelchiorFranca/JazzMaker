@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="#">
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+	<title>Criatividade Computacional</title>
+</head>
+
+
+<body>
+	<div class="img-holder">
+		<img src="/img/jazz-std.png" class="">
+	</div>
+
+	<div class="box"></div>
+
+
+
+	<div class="container">
+
+		<h3> Marque os instrumentos que deseja usar :</h3>
+
+		<div class="all-instrumentos">
+
+			<div class="instrumentos">
+				<label class="form-check-label" for="piano"> Piano :</label>
+				<input class="form-check-input" type="checkbox" id="piano" checked="checked" />
+			</div>
+
+			<div class="instrumentos">
+				<label class="form-check-label" for="strings">Cordas:</label>
+				<input class="form-check-input" type="checkbox" id="strings" checked="checked" />
+			</div>
+
+			<div class="instrumentos">
+				<label class="form-check-label" for="winds">Sopro:</label>
+				<input class="form-check-input" type="checkbox" id="winds" checked="checked" />
+			</div>
+
+			<div class="instrumentos">
+				<label class="form-check-label" for="drums">Bateria:</label>
+				<input class="form-check-input" type="checkbox" id="drums" checked="checked" />
+			</div>
+
+			<div class="instrumentos">
+				<label class="form-check-label" for="guitar">Violão:</label>
+				<input class="form-check-input" type="checkbox" id="guitar" checked="checked" />
+			</div>
+
+			<div class="instrumentos">
+				<label class="form-check-label" for="bass">Baixo:</label>
+				<input class="form-check-input" type="checkbox" id="bass" checked="checked" />
+			</div>
+
+		</div>
+
+
+		<h4 class="mb-3"></h4>
+		<div class="personalize">
+
+			<span class="mood"> Estilo: &nbsp;</span>
+			<select class="form-select container" data-live-search="true" id="genre">
+				<optgroup label="Padrão">
+					<option value="jazz">Jazz Padrão</option>
+					<option value="thebeatles">Jazz Natalino</option>
+					<option value="broadway">Broadway</option>
+					<option value="franksinatra">Passeio em NY</option>
+				</optgroup>
+
+			</select>
+
+		</div>
+	</div>
+
+	<div class="configs container">
+		<h4>Configurações Adicionais</h4>
+
+		<div class="tamanho">
+			<label for="generationLength">Tamanho de Geração</label>
+			<input class="form-control" id="generationLength" value="225" type="number" max="1500" />
+			<small class="text-muted">Max 1500</small>
+
+			<div class="col my-4">
+				Formato:
+				<select class="form-select" id="format">
+					<option value="ogg">ogg</option>
+					<option value="mp3">mp3</option>
+				</select>
+			</div>
+
+			<div class="generate">
+				<input class="btn btn-primary" type="button" value="Generate!" onclick="extend()" id="button" />
+				<div id="loader-outer">
+					<div id="loader-inner"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="export container">
+		<div class="white-text">
+			<h5>Suas criações (apertar duas vezes no play pra tocar):</h5>
+		</div>
+		<div class="row exports">
+			<div class="col-3">
+				<a href="javascript:;" id="download_outbox1">
+				</a>
+
+				<audio class="w-100" controls="controls" id="sound1" />
+			</div>
+
+			<div class="col-3">
+				<a href="javascript:;" id="download_outbox2">
+				</a>
+				<audio class="w-100" controls="controls" id="sound2" />
+			</div>
+
+			<div class="col-3">
+				<a href="javascript:;" id="download_outbox3">
+				</a>
+
+				<audio class="w-100" controls="controls" id="sound3" />
+			</div>
+
+			<div class="col-3">
+				<a href="javascript:;" id="download_outbox4">
+				</a>
+
+				<audio class="w-100" controls="controls" id="sound4" />
+			</div>
+
+
+		</div>
+	</div>
+
+
+	<textarea onchange="encodingToMidiFile(this.value, 'download_outbox1')" id="outbox1" style="display: none"></textarea>
+
+	<textarea onchange="encodingToMidiFile(this.value, 'download_outbox2')" id="outbox2" style="display: none"></textarea>
+
+	<textarea onchange="encodingToMidiFile(this.value, 'download_outbox3')" id="outbox3" style="display: none"></textarea>
+
+	<textarea onchange="encodingToMidiFile(this.value, 'download_outbox4')" id="outbox4" style="display: none"></textarea>
+
+
+	<!-- Metadados passados para o JavaScript poder gerar novas samples (valores necessários à IA) -->
+	<div class="invisible">
+		<div class="col">
+			<label for="temperature">Temperatura:</label>
+			<input class="form-control mw-100" id="temperature" value="1" type="number">
+			<small class="text-muted">Max 2</small>
+		</div>
+		<textarea onchange="encodingToMidiFile(this.value, 'download_inbox')" id="inbox"></textarea>
+		<div class="col">
+			<input class="form-control" id="truncation" value="27" type="hidden" />
+		</div>
+	</div>
+
+
+	<script src="bundle.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
